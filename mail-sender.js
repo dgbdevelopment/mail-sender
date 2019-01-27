@@ -19,6 +19,9 @@ app.post('/send-email', (req, res) => {
 });
 
 
-app.listen(app.get('port'), () => {
-   console.log('Server running on port', app.get('port'));
+https.createServer({
+   key: fs.readFileSync(path.join(__dirname, '../..', 'my_certs', 'ssl.mailer.dgbdevelopment.com.key')),
+   cert: fs.readFileSync(path.join(__dirname, '../..', 'my_certs','ssl.mailer.dgbdevelopment.com.crt'))
+}, app).listen(app.get('port'), () => {
+   console.log('Server on port', app.get('port'));
 });
