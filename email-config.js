@@ -1,14 +1,15 @@
 const nodemailer = require('nodemailer');
 const secret = require('./secret');
 
-module.exports = (formulario) => {
-   const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-         user: secret.mail, // Cambialo por tu email
-         pass: secret.password // Cambialo por tu password
-      }
-   });
+module.exports = (formulario, res) => {
+  const transporter = nodemailer.createTransport({
+    host: secret.host,
+    port: secret.port,
+    auth: {
+      user: secret.mail, // Cambialo por tu email
+      pass: secret.password // Cambialo por tu password
+     }
+  });
 
    const mailOptions = {
       from: `”${formulario.name}” <${formulario.email}>`,
@@ -22,9 +23,8 @@ module.exports = (formulario) => {
    };
    transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
-         return console.log(err);
-          
+         res.status(500).send(err.message);          
       }
-      console.log(info);
+      res.status(200).send(info);
    });
 }
